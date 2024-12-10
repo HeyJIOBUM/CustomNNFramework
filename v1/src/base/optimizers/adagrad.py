@@ -3,10 +3,7 @@ import numpy as np
 from v1.src.base.optimizers.optimizer import Optimizer
 
 
-class AdaGrad(
-    Optimizer,
-    # serialized_fields=['initial_accumulator_value', 'epsilon']
-):
+class AdaGrad(Optimizer):
     def __init__(
             self,
             learning_rate: float = 0.001,
