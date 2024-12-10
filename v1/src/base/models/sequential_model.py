@@ -78,6 +78,7 @@ class SequentialModel(Model, ABC):
 
         callbacks.on_train_epoch_start(epoch)
 
+        self.optimizer.clear_state()
         self.metrics.clear_state()
         for i, (x_batch, e_batch) in enumerate(train_data):
             self.optimizer.zero_grad()

@@ -25,6 +25,7 @@ class Adam(
 
         # self.amsgrad = amsgrad
 
+    def clear_state(self):
         self.parameters_m = None
         self.parameters_v = None
 

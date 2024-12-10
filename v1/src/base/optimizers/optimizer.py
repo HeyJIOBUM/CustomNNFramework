@@ -28,6 +28,9 @@ class Optimizer(
         self.parameters.append(param)
         self.gradients.append(param_gradient)
 
+    def clear_state(self):
+        pass
+
     def zero_grad(self):
         self.parameters = []
         self.gradients = []
