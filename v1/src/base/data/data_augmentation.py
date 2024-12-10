@@ -57,7 +57,7 @@ def one_hot_labels(num_classes = 10):
         data, label = data_tuple
         y = np.zeros(num_classes)
         y[label-1] = 1
-        return data_tuple[0], y
+        return data, y
 
     return DataAugmentation(augmentate_function,name="one_hot_labels")
 
