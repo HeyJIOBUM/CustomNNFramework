@@ -20,7 +20,7 @@ class ValueInitializer(
     def __call__(self, shape):
         create_array = self.__init_function(shape)
 
-        if create_array.ndim == 1:
+        if create_array is not None and create_array.ndim == 1:
             create_array = np.expand_dims(create_array, axis=0)
 
         return create_array
