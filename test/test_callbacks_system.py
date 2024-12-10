@@ -1,14 +1,14 @@
 from v1.src.base.activation import *
-from v1.src.base.callbacks.default_callbacks import ProgressBarCallback
+from v1.src.base.callbacks.default_callbacks import ProgressBarCallback, ModelSaveCallback
+from v1.src.base.callbacks.default_callbacks.early_stopping_callback import EarlyStoppingCallback
 from v1.src.base.data import data_augmentation, ModelDataSource
-from v1.src.base.layers import InputLayer
-from v1.src.base.layers.linear_layer import *
+from v1.src.base.layers import InputLayer, LinearLayer
 from v1.src.base.loss_function import mse
 from v1.src.base.metrics import AccuracyMetric, LossMetric
 from v1.src.base.metrics.matching_functon import one_hot_matching_function
 from v1.src.base.models import SequentialModel
 from v1.src.base.optimizers.adam import Adam
-from v1.src.base.value_initializer import he_initializer
+from v1.src.base.value_initializer import he_initializer, xavier_initializer
 from v1.src.mnist.mnist_dataloader import MnistDataloader
 
 mnist_dataloader = MnistDataloader()
@@ -20,6 +20,16 @@ batch_size = 200
 data_source = ModelDataSource(
     train_data=(x_train, y_train),
     test_data=(x_test, y_test),
+    train_data_augmentations=[
+        data_augmentation.scaling_pil(
+            copies=1,
+            scale_range=(0.5, 2)
+        ),
+        data_augmentation.cropping(
+            copies=1,
+            cropped_part_range=(0.5, 0.9)
+        ),
+    ],
     data_augmentations=[
         data_augmentation.flatten(),
         data_augmentation.normalize(),
@@ -33,15 +43,15 @@ model = SequentialModel(
         InputLayer(784),
         LinearLayer(256,
                     activation=relu(),
-                    prev_weights_initializer=he_initializer(),
+                    prev_weights_initializer=xavier_initializer(),
                     ),
-        LinearLayer(50,
+        LinearLayer(64,
                     activation=relu(),
-                    prev_weights_initializer=he_initializer(),
+                    prev_weights_initializer=xavier_initializer(),
                     ),
         LinearLayer(10,
                     activation=linear(),
-                    prev_weights_initializer=he_initializer(),
+                    prev_weights_initializer=xavier_initializer(),
                     ),
     ]
 )
@@ -62,7 +72,7 @@ model.build(
 
 model.fit(
     model_data_source=data_source,
-    epochs=10,
+    epochs=25,
     callbacks=[
         ProgressBarCallback(
             count_mode='batch',
@@ -70,6 +80,16 @@ model.fit(
                 'accuracy',
                 'mse_loss',
             ]),
+        EarlyStoppingCallback(
+            monitor='accuracy',
+            mode='max',
+        ),
+        ModelSaveCallback(
+            monitor='accuracy',
+            mode='max',
+            monitor_save_threshold=0.98,
+            filepath='mnist_greater_0.98accuracy',
+        )
     ],
 )
 
