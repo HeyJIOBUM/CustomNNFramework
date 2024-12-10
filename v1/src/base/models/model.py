@@ -2,6 +2,7 @@ import pickle
 from abc import ABC, abstractmethod
 
 import numpy as np
+from tensorflow.python.keras.testing_utils import layer_test
 
 from v1.src.base.callbacks import Callback
 from v1.src.base.callbacks.callback_list import CallbackList
@@ -76,9 +77,10 @@ class Model(ABC):
     def init_layers_params(self, reassign_existing=True):
         pass
 
-    @abstractmethod
     def summary(self):
-        pass
+        print(f'Layers:')
+        for layer in self.layers:
+            print(layer.name)
 
     def __getstate__(self):
         state = {

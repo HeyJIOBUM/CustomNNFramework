@@ -11,7 +11,6 @@ from v1.src.base.metrics.metric import Metric
 from v1.src.base.metrics.metric_list import MetricList
 from v1.src.base.models.model import Model
 from v1.src.base.optimizers.optimizer import Optimizer
-from v1.src.utils.sequential_model_summary_util import print_sequential_model_summary
 
 
 class SequentialModel(Model, ABC):
@@ -161,6 +160,3 @@ class SequentialModel(Model, ABC):
                 prev_layer_neurons=self.layers[i-1].neurons,
                 reassign_existing=reassign_existing
             )
-
-    def summary(self):
-        print_sequential_model_summary(self)
