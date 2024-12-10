@@ -46,9 +46,14 @@ def flatten():
 def normalize():
     def augmentate_function(data_tuple):
         x = np.array(data_tuple[0])
-        if np.max(x) == 0:
-            return [],[]
-        return x / np.max(x), data_tuple[1]
+        min_x = np.min(x)
+        max_x = np.max(x)
+
+        if max_x == min_x:
+            return x, data_tuple[1]
+
+        normalized_x = (x - min_x) / (max_x - min_x)
+        return normalized_x, data_tuple[1]
 
     return DataAugmentation(augmentate_function, name="normalize")
 
