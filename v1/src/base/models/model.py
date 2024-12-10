@@ -2,7 +2,6 @@ import pickle
 from abc import ABC, abstractmethod
 
 import numpy as np
-from tensorflow.python.keras.testing_utils import layer_test
 
 from v1.src.base.callbacks import Callback
 from v1.src.base.callbacks.callback_list import CallbackList
