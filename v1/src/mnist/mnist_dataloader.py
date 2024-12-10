@@ -4,16 +4,13 @@ from array import array
 
 
 class MnistDataloader(object):
-    def __init__(self,
-                 training_images_filepath = "v1/src/mnist/data/train-images-idx3-ubyte/train-images-idx3-ubyte",
-                 training_labels_filepath = "v1/src/mnist/data/train-labels-idx1-ubyte/train-labels-idx1-ubyte",
-                 test_images_filepath = "v1/src/mnist/data/t10k-images-idx3-ubyte/t10k-images-idx3-ubyte",
-                 test_labels_filepath = "v1/src/mnist/data/t10k-labels-idx1-ubyte/t10k-labels-idx1-ubyte",
-                 ):
-        self.training_images_filepath = training_images_filepath
-        self.training_labels_filepath = training_labels_filepath
-        self.test_images_filepath = test_images_filepath
-        self.test_labels_filepath = test_labels_filepath
+    def __init__(self):
+        import os
+        parent_directory = os.path.dirname(os.path.abspath(__file__))
+        self.training_images_filepath = parent_directory + "\\data\\train-images-idx3-ubyte\\train-images-idx3-ubyte"
+        self.training_labels_filepath = parent_directory + "\\data\\train-labels-idx1-ubyte\\train-labels-idx1-ubyte"
+        self.test_images_filepath = parent_directory + "\\data\\t10k-images-idx3-ubyte\\t10k-images-idx3-ubyte"
+        self.test_labels_filepath = parent_directory + "\\data\\t10k-labels-idx1-ubyte\\t10k-labels-idx1-ubyte"
 
     def read_images_labels(self, images_filepath, labels_filepath):
         labels = []
