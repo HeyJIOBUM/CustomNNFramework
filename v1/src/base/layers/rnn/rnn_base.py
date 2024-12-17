@@ -21,9 +21,6 @@ class RNNBase(Layer):
 
             use_bias: bool = True,
             bias_initializer: ValueInitializer = zero_initializer(),
-
-            dropout: float = 0.0,
-            recurrent_dropout: float = 0.0,
     ):
         super().__init__(
             neurons=neurons,
@@ -40,9 +37,6 @@ class RNNBase(Layer):
 
         self.recurrent_weights_initializer = recurrent_weights_initializer
         self.recurrent_weights = None
-
-        self.dropout = dropout
-        self.recurrent_dropout = recurrent_dropout
 
         self.state = None
 
@@ -86,11 +80,6 @@ class RNNBase(Layer):
         if reassign_existing:
             self.state = None
 
-    def create_dropout_mask(self, dropout_rate, masked_array):
-        mask = (np.random.binomial(n=1, p=(1 - dropout_rate), size=masked_array.size)
-                .reshape(masked_array.shape))
-        return mask
-
     def __getstate__(self):
         state = super().__getstate__()
         state['use_bias'] = self.use_bias
@@ -99,8 +88,6 @@ class RNNBase(Layer):
         state['recurrent_weights'] = self.recurrent_weights
         state['recurrent_weights_initializer'] = self.recurrent_weights_initializer
         state['stacked_layers'] = self.stacked_layers
-        state['dropout'] = self.dropout
-        state['recurrent_dropout'] = self.recurrent_dropout
         state['state'] = self.state
         return state
 
@@ -113,6 +100,4 @@ class RNNBase(Layer):
         self.recurrent_weights = state['recurrent_weights']
         self.recurrent_weights_initializer = state['recurrent_weights_initializer']
         self.stacked_layers = state['stacked_layers']
-        self.dropout = state['dropout']
-        self.recurrent_dropout = state['recurrent_dropout']
         self.state = state['state']

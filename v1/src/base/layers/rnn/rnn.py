@@ -19,9 +19,6 @@ class RNNLayer(RNNBase):
 
             use_bias: bool = True,
             bias_initializer: ValueInitializer = torch_rnn_initializer(),
-
-            dropout: float = 0.0,
-            recurrent_dropout: float = 0.0,
     ):
         super().__init__(
             neurons=neurons,
@@ -32,8 +29,6 @@ class RNNLayer(RNNBase):
             stacked_layers=stacked_layers,
             use_bias=use_bias,
             bias_initializer=bias_initializer,
-            dropout=dropout,
-            recurrent_dropout=recurrent_dropout,
         )
 
         self.prev_in = None
@@ -60,10 +55,6 @@ class RNNLayer(RNNBase):
             self.h_t = initial_state
         else:
             self.h_t = self.get_initial_state((batch_size, self.neurons))
-
-        if training:
-            if self.dropout > 0:
-                in_batch *= self.create_dropout_mask(self.dropout, in_batch)
 
         output = []
         self.prev_in = [[[] for _ in range(timesteps)] for _ in range(self.stacked_layers)]
