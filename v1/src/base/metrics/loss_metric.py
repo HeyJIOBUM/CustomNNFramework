@@ -24,7 +24,7 @@ class LossMetric(Metric):
     @property
     def average_loss(self):
         if self.iterations == 0:
-            return 'Nan'
+            return float('nan')
         return self.overall_loss / self.iterations
 
     def clear_state(self):

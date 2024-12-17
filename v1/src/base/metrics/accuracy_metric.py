@@ -24,7 +24,7 @@ class AccuracyMetric(Metric):
     @property
     def accuracy(self):
         if self.iterations == 0:
-            return 'Nan'
+            return float('nan')
         return self.guessed_counter / self.iterations * 100
 
     def clear_state(self):
