@@ -22,10 +22,6 @@ class Adam(Optimizer):
         self.parameters_m = None
         self.parameters_v = None
 
-    def clear_state(self):
-        self.parameters_m = None
-        self.parameters_v = None
-
     def next_step(self):
         if self.parameters_m is None and self.parameters_v is None:
             self.parameters_m = [np.zeros_like(param) for param in self.parameters]
