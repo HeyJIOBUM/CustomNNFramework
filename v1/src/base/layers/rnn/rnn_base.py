@@ -5,7 +5,7 @@ import numpy as np
 from v1.src.base.activation import Activation
 from v1.src.base.layers import Layer
 from v1.src.base.optimizers import Optimizer
-from v1.src.base.value_initializer import ValueInitializer, zero_initializer, orthogonal_initializer, he_initializer
+from v1.src.base.value_initializer import ValueInitializer, zero_initializer, he_initializer
 
 
 class RNNBase(Layer):
@@ -15,7 +15,7 @@ class RNNBase(Layer):
             activation: Activation = None,
             is_trainable: bool = True,
             prev_weights_initializer: ValueInitializer = he_initializer(),
-            recurrent_weights_initializer: ValueInitializer = orthogonal_initializer(),
+            recurrent_weights_initializer: ValueInitializer = he_initializer(),
 
             stacked_layers: int = 1,
 

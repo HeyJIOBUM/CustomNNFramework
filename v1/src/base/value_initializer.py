@@ -18,12 +18,12 @@ class ValueInitializer(
         self.name = name
 
     def __call__(self, shape):
-        create_array = self.__init_function(shape)
+        created_array = self.__init_function(shape)
 
-        if create_array is not None and create_array.ndim == 1:
-            create_array = np.expand_dims(create_array, axis=0)
+        if isinstance(created_array, np.ndarray) and created_array.ndim == 1:
+            created_array = np.expand_dims(created_array, axis=0)
 
-        return create_array
+        return created_array
 
 def zero_initializer() -> ValueInitializer:
     def zero_init_function(shape) -> np.array:
@@ -57,13 +57,6 @@ def xavier_initializer() -> ValueInitializer:
 
     return ValueInitializer(xavier_init_function, name="xavier_initializer")
 
-def orthogonal_initializer() -> ValueInitializer:
-    def orthogonal_init_function(shape) -> np.array:
-        n_in, n_out = shape
-        return np.linalg.qr(np.random.randn(n_in, n_out))[0]
-
-    return ValueInitializer(orthogonal_init_function, name="orthogonal_initializer")
-
 def torch_rnn_initializer() -> ValueInitializer:
     def torch_rnn_init_function(shape) -> np.array:
         if isinstance(shape, int):
@@ -75,6 +68,6 @@ def torch_rnn_initializer() -> ValueInitializer:
     return ValueInitializer(torch_rnn_init_function, name="torch_rnn_initializer")
 
 ValueInitializer.__register_generators__([
-    zero_initializer, uniform_initializer, none_weights_initializer, he_initializer,
-    xavier_initializer, orthogonal_initializer, torch_rnn_initializer
+    zero_initializer, uniform_initializer, none_weights_initializer,
+    he_initializer, xavier_initializer, torch_rnn_initializer
 ])
