@@ -6,7 +6,6 @@ from v1.src.base.value_initializer import ValueInitializer
 
 
 class Layer(ABC):
-    pass
     def __init__(
             self,
             neurons: int,

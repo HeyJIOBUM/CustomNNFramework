@@ -34,7 +34,6 @@ class SGD(Optimizer):
 
                     param += np.multiply(self.momentum_coefficient, saved_momentum)
                     param -= np.multiply(self.learning_rate, gradient)
-                    pass
             else:
                 for param, gradient, saved_momentum in zip(self.parameters, self.gradients, self.momentums):
                     saved_momentum *= self.momentum_coefficient

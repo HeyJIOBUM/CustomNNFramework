@@ -12,7 +12,6 @@ class DataAugmentation:
     ):
         self.__augmentate_function = augmentate_function
         self.name = name
-        pass
 
     def __call__(self, data_tuple: (np.array, np.array)) -> [(np.array, np.array)]:
         answer = self.__augmentate_function(data_tuple)
